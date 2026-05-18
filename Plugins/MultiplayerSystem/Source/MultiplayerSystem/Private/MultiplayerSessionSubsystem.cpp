@@ -67,7 +67,7 @@ void UMultiplayerSessionSubsystem::JoinGameSession(EMatchType MatchToJoin)
 	SessionSearch = MakeShareable(new FOnlineSessionSearch());
 	SessionSearch->bIsLanQuery = OnlineSubsystem->GetSubsystemName() == "NULL";
 	SessionSearch->MaxSearchResults = 5;
-	SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
+	SessionSearch->QuerySettings.Set(SEARCH_LOBBIES, true, EOnlineComparisonOp::Equals);
 	SessionSearch->QuerySettings.Set(FName("MatchType"), (int32)MatchToJoin, EOnlineComparisonOp::Equals);
 	SessionInterface->FindSessions(*InLocalPlayer->GetPreferredUniqueNetId(), SessionSearch.ToSharedRef());
 }
