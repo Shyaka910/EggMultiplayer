@@ -30,6 +30,9 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	/*
+	* @param bBacktoLobbyMap: If true, will end the session after traveling.
+	*/
 	UFUNCTION(BlueprintCallable)
 	void TravelToMap(FName MapName, bool bBacktoLobbyMap);
 

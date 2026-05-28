@@ -33,6 +33,8 @@ void UCharacterAbilitySystemComponent::BeginPlay()
 
 void UCharacterAbilitySystemComponent::GrantDefaultAbilities()
 {
+	// loop through all default abilities and give them to the character. The -1 is the level of the ability, 
+	// and the 0 is the input code for the ability (if you want to bind it to an input)
 	for (TSubclassOf<UGameplayAbility>& InClass : DefaultAbilities)
 	{
 		if (InClass)
