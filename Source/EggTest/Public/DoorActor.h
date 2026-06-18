@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	ADoorActor();
 
-	UPROPERTY(ReplicatedUsing = OnRep_DoorOpen)
+	UPROPERTY(ReplicatedUsing = OnRep_DoorOpen, EditAnywhere, BlueprintReadWrite)
 	uint8 bDoorOpen : 1;
 
 	UPROPERTY(Replicated)

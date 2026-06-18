@@ -12,6 +12,7 @@ AInteractibleActor::AInteractibleActor()
 	SetReplicates(true);
 
 	InteractMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DoorMesh"));
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp"));
 	InteractMesh->SetupAttachment(RootComponent);
 
 }

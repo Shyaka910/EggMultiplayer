@@ -23,7 +23,8 @@ void ADoorActor::Interact_Implementation(class APawn* InteractPlayer)
 	if (HasAuthority())
 	{
 		bDoorOpen = !bDoorOpen;
-		Dir = FVector::DotProduct(GetActorForwardVector(), InteractPlayer->GetActorForwardVector());
+		FVector ViewDirection = InteractPlayer->GetControlRotation().Vector();
+		Dir = FVector::DotProduct(GetActorForwardVector(), ViewDirection);
 
 		OnDoorToggled(bDoorOpen, Dir > 0 ? 1 : -1);
 	}
