@@ -74,6 +74,9 @@ public:
 	UPROPERTY(Replicated)
 	class ACubeActor* EquippedCube;
 
+	UPROPERTY(BlueprintReadOnly)
+	class AInteractibleActor* AvailableInteractingActor = nullptr;
+
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

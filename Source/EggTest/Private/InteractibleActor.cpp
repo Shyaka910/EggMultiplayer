@@ -2,6 +2,9 @@
 
 
 #include "InteractibleActor.h"
+#include "Components/BoxComponent.h"
+#include "./MyPlayerCharacter.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 AInteractibleActor::AInteractibleActor()
@@ -15,6 +18,15 @@ AInteractibleActor::AInteractibleActor()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp"));
 	InteractMesh->SetupAttachment(RootComponent);
 
+	InteractArea = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractArea"));
+	InteractArea->SetupAttachment(RootComponent);
+	InteractArea->SetGenerateOverlapEvents(true);
+
+	InteractArea->OnComponentBeginOverlap.AddDynamic(this, &AInteractibleActor::OnActorBeginOverlap);
+	InteractArea->OnComponentEndOverlap.AddDynamic(this, &AInteractibleActor::OnActorEndOverlap);
+
+	WidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("InteractWidget"));
+	WidgetComp->SetupAttachment(InteractMesh);
 }
 
 // Called when the game starts or when spawned
@@ -24,7 +36,7 @@ void AInteractibleActor::BeginPlay()
 	
 }
 
-void AInteractibleActor::OnInteract_Implementation()
+void AInteractibleActor::OnInteract_Implementation(APawn* InteractingPlayer)
 {
 
 }
@@ -34,7 +46,31 @@ void AInteractibleActor::Interact_Implementation(class APawn* InteractPlayer)
 	// Only run OnInteract on the server
 	if (HasAuthority())
 	{
-		OnInteract();
+		OnInteract(InteractPlayer);
+	}
+}
+
+void AInteractibleActor::OnActorBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (AMyPlayerCharacter* Player = Cast<AMyPlayerCharacter>(OtherActor))
+	{
+		if (Player->IsLocallyControlled())
+		{
+			Player->AvailableInteractingActor = this;
+			WidgetComp->SetVisibility(true);
+		}
+	}
+}
+
+void AInteractibleActor::OnActorEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (AMyPlayerCharacter* Player = Cast<AMyPlayerCharacter>(OtherActor))
+	{
+		if (Player->IsLocallyControlled())
+		{
+			Player->AvailableInteractingActor = nullptr;
+			WidgetComp->SetVisibility(false);
+		}
 	}
 }
 
