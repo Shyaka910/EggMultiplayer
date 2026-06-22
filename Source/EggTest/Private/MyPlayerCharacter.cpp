@@ -47,7 +47,7 @@ void AMyPlayerCharacter::TravelToMap(FName MapName , bool bBacktoLobbyMap)
 {
 	if (!HasAuthority()) return;
 
-	FString ServerMapName = FString::Printf(TEXT("/Game/ThirdPerson/Maps/%s?listen"), *MapName.ToString());
+	FString ServerMapName = FString::Printf(TEXT("/Game/Modular_Rural_Cabin/Maps/%s?listen"), *MapName.ToString());
 	GetWorld()->ServerTravel(ServerMapName);
 
 	if (UMultiplayerSessionSubsystem* SessionSubsystem = GetGameInstance()->GetSubsystem<UMultiplayerSessionSubsystem>())
