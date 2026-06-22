@@ -25,4 +25,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void Interact(class APawn* InteractPlayer);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool CanInteract();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void SetCanInteract(bool bInteract = true);
 };

@@ -64,6 +64,18 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerRemoveOverlappedEgg(AActor* OtherActor);
 
+	UFUNCTION(BlueprintCallable)
+	void EquipeWeapon(class AWeaponActor* Weapon);
+
+	UPROPERTY(ReplicatedUsing = OnRep_EquippedWeapon)
+	AWeaponActor* EquippedWeapon = nullptr;
+
+	UFUNCTION()
+	void OnRep_EquippedWeapon();
+
+	UFUNCTION(BlueprintPure)
+	bool IsWeaponEquipped();
+
 	// Trail array
 	UPROPERTY(Replicated)
 	TArray<AEggActor*> EggTrail;

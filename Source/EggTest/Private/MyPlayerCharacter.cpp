@@ -13,6 +13,7 @@
 #include "Components/CombatComponent.h"
 #include "Components/CharacterAbilitySystemComponent.h"
 #include "Gameplay/CharacterAttributeSet.h"
+#include "WeaponActor.h"
 
 AMyPlayerCharacter::AMyPlayerCharacter()
 {
@@ -198,6 +199,29 @@ void AMyPlayerCharacter::ServerRemoveOverlappedEgg_Implementation(AActor* OtherA
 	}
 }
 
+void AMyPlayerCharacter::EquipeWeapon(class AWeaponActor* Weapon)
+{
+	if (HasAuthority() && Weapon)
+	{
+		Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, Weapon->WeaponAttachSocketName);
+		EquippedWeapon = Weapon;
+		EquippedWeapon->bCanInteract = false;
+	}
+}
+
+void AMyPlayerCharacter::OnRep_EquippedWeapon()
+{
+	if (EquippedWeapon)
+	{
+		EquippedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, EquippedWeapon->WeaponAttachSocketName);
+	}
+}
+
+bool AMyPlayerCharacter::IsWeaponEquipped()
+{
+	return EquippedWeapon != nullptr;
+}
+
 void AMyPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -205,6 +229,7 @@ void AMyPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(AMyPlayerCharacter, EggTrail);
 	DOREPLIFETIME(AMyPlayerCharacter, OtherPlayerEggToThrow);
 	DOREPLIFETIME(AMyPlayerCharacter, EquippedCube);
+	DOREPLIFETIME(AMyPlayerCharacter, EquippedWeapon);
 }
 
 

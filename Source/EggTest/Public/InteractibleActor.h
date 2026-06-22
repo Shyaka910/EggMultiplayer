@@ -29,7 +29,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 	virtual void Interact_Implementation(class APawn* InteractPlayer) override;
+
+	virtual bool CanInteract_Implementation() override;
+
+	virtual void SetCanInteract_Implementation(bool bInteract = true) override;
 
 	UFUNCTION(NetMulticast, Unreliable)
 	virtual void NetMutlicast_OnInteract(APawn* InteractingPlayer);
@@ -55,5 +61,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+public:
+
+	UPROPERTY(Replicated)
+	bool bCanInteract = true;
 
 };
