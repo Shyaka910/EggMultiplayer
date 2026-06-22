@@ -36,18 +36,23 @@ void AInteractibleActor::BeginPlay()
 	
 }
 
-void AInteractibleActor::OnInteract_Implementation(APawn* InteractingPlayer)
-{
-
-}
-
 void AInteractibleActor::Interact_Implementation(class APawn* InteractPlayer)
 {
 	// Only run OnInteract on the server
 	if (HasAuthority())
 	{
-		OnInteract(InteractPlayer);
+		NetMutlicast_OnInteract(InteractPlayer);
 	}
+}
+
+void AInteractibleActor::NetMutlicast_OnInteract_Implementation(APawn* InteractingPlayer)
+{
+	OnInteract(InteractingPlayer);
+}
+
+void AInteractibleActor::OnInteract_Implementation(APawn* InteractingPlayer)
+{
+
 }
 
 void AInteractibleActor::OnActorBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

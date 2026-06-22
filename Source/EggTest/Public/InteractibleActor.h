@@ -31,6 +31,10 @@ protected:
 
 	virtual void Interact_Implementation(class APawn* InteractPlayer) override;
 
+	UFUNCTION(NetMulticast, Unreliable)
+	virtual void NetMutlicast_OnInteract(APawn* InteractingPlayer);
+
+	/** This event gets called on all clients once any player interact with this actor */
 	UFUNCTION(BlueprintNativeEvent)
 	void OnInteract(APawn* InteractingPlayer);
 
