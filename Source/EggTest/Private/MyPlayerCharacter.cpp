@@ -206,6 +206,7 @@ void AMyPlayerCharacter::EquipeWeapon(class AWeaponActor* Weapon)
 		Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, Weapon->WeaponAttachSocketName);
 		EquippedWeapon = Weapon;
 		EquippedWeapon->bCanInteract = false;
+		EquippedWeapon->SetOwner(this);
 	}
 }
 
