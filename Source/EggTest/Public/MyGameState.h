@@ -36,7 +36,10 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnPlayerJoined OnPlayerJoined;
 
+	UFUNCTION(BlueprintCallable)
 	void AddScoreToPlayer(AMyPlayerState* InPlayer, int32 ScoreCount);
+
+	UFUNCTION(BlueprintCallable)
 	void SetUserNameToPlayer(AMyPlayerState* InPlayer, FName InUserName);
 
 };

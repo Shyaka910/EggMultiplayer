@@ -23,6 +23,9 @@ public:
 	float FireRate = 1.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	float DamageRate = 20.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	FName WeaponAttachSocketName = "";
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
