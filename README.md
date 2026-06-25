@@ -1,1 +1,1 @@
-[![Gameplay Demo](https://img.youtube.com/vi/LbuAbhj8f-I/hqdefault.jpg)](https://youtu.be/LbuAbhj8f-I)
+[![Gameplay Demo](https://img.youtube.com/viNHxvSuc7H1c/hqdefault.jpg)](https://youtu.be/NHxvSuc7H1c)
