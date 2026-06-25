@@ -49,6 +49,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void OnWeaponFireHit(class ACharacter* HitPlayer, AActor* BulletActor, const FHitResult& HitRes);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnWeaponFired();
+
 	virtual void Interact_Implementation(class APawn* InteractPlayer) override;
 
 	UFUNCTION(BlueprintCallable)

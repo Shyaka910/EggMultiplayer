@@ -132,6 +132,8 @@ void AWeaponActor::ServerFire_Implementation(FVector SocketLocation, FRotator So
 		}
 	}
 
+	OnWeaponFired();
+
 	Mutlicast_PlayCosmetic(SocketLocation, SocketRotation);
 }
 
