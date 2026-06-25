@@ -1,83 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multiplayer Co-Op Shooter Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shyaka Abdurahim | Unreal Engine Developer</title>
 
   <style>
-    body {
+    :root {
+      --bg: #0f1115;
+      --card: #171a21;
+      --text: #e6e6e6;
+      --muted: #a0a0a0;
+      --accent: #4da3ff;
+    }
+
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: Arial, Helvetica, sans-serif;
-      background: #0f0f0f;
-      color: #ffffff;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
     }
 
     header {
       padding: 80px 20px;
       text-align: center;
-      background: linear-gradient(135deg, #1a1a1a, #000000);
+      background: linear-gradient(135deg, #111827, #0f1115);
     }
 
     header h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
+      font-size: 2.8rem;
     }
 
     header p {
-      color: #bbbbbb;
-      font-size: 18px;
+      color: var(--muted);
+      margin-top: 10px;
     }
 
-    .container {
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px;
+      background: #0c0e12;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    section {
       max-width: 1000px;
       margin: auto;
-      padding: 40px 20px;
+      padding: 60px 20px;
+      transition: transform 0.25s ease;
     }
 
-    .section {
-      margin-bottom: 60px;
+    /* ===== Cards ===== */
+    .card, .project {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      will-change: transform;
+    }
+
+    .card:hover, .project:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     }
 
     h2 {
-      border-left: 4px solid #4CAF50;
-      padding-left: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      color: var(--accent);
     }
 
-    .video {
-      text-align: center;
-      margin: 30px 0;
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
 
-    iframe {
-      width: 100%;
-      height: 500px;
-      border: none;
-      border-radius: 10px;
+    .tag {
+      display: inline-block;
+      background: #223;
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 12px;
+      margin-top: 8px;
+      margin-right: 5px;
     }
 
     ul {
       padding-left: 20px;
+      color: var(--muted);
     }
 
-    .card {
-      background: #1a1a1a;
-      padding: 20px;
+    iframe {
+      width: 100%;
+      height: 450px;
       border-radius: 10px;
-      margin-bottom: 15px;
+      margin-top: 15px;
+    }
+
+    a.button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: var(--accent);
+      color: #000;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+    }
+
+    a.button:hover {
+      transform: translateY(-2px);
+    }
+
+    a.link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a.link:hover {
+      text-decoration: underline;
     }
 
     footer {
       text-align: center;
       padding: 30px;
-      color: #777;
+      color: var(--muted);
       border-top: 1px solid #222;
-    }
-
-    a {
-      color: #4CAF50;
     }
   </style>
 </head>
@@ -85,98 +156,130 @@
 <body>
 
 <header>
-  <h1>Multiplayer Co-Op Shooter</h1>
-  <p>Unreal Engine 5 | C++ | Multiplayer Systems | AI Combat | Steam Online</p>
+  <h1>Shyaka A.</h1>
+  <p>Unreal Engine Gameplay & Multiplayer Developer</p>
 </header>
 
-<div class="container">
+<nav>
+  <a href="#about">About</a>
+  <a href="#video">Trailer</a>
+  <a href="#projects">Projects</a>
+  <a href="#skills">Skills</a>
+  <a href="#contact">Contact</a>
+</nav>
 
-  <!-- VIDEO -->
-  <div class="section">
-    <h2>Gameplay Demo</h2>
-
-    <div class="video">
-      <!-- Replace VIDEO_ID -->
-      <iframe src="https://www.youtube.com/embed/VIDEO_ID"
-              allowfullscreen>
-      </iframe>
-    </div>
+<section id="about">
+  <h2>About Me</h2>
+  <div class="card">
+    I am a Game Developer specializing in Unreal Engine 5 with a strong focus on multiplayer systems,
+    replication, AI behavior systems, and scalable gameplay architecture.
+    <br><br>
+    I also have experience working in an <strong>AA studio environment</strong>, contributing to structured production workflows
+    and collaborative game development pipelines.
   </div>
+</section>
 
-  <!-- ABOUT -->
-  <div class="section">
-    <h2>Overview</h2>
-    <div class="card">
-      A multiplayer co-op third-person shooter inspired by survival gameplay systems.
-      Built in Unreal Engine 5 with full server-authoritative replication, AI-driven infected enemies,
-      and Steam online multiplayer integration.
-    </div>
+<section id="video">
+  <h2>Multiplayer Shooter Trailer</h2>
+  <div class="card">
+    <iframe 
+      src="https://www.youtube.com/embed/NHxvSuc7H1c"
+      title="Multiplayer Shooter Trailer"
+      allowfullscreen>
+    </iframe>
   </div>
+</section>
 
-  <!-- FEATURES -->
-  <div class="section">
-    <h2>Core Features</h2>
+<section id="projects">
+  <h2>Projects</h2>
 
-    <div class="card">
-      <ul>
-        <li>Full Multiplayer C++ Replication (Server-authoritative architecture)</li>
-        <li>Weapons system (hitscan + projectile weapons)</li>
-        <li>Grenades with replicated physics simulation</li>
-        <li>Pickup system (ammo, weapons, health potions)</li>
-        <li>Smart AI infected using Behavior Trees</li>
-        <li>NavMesh-driven navigation system</li>
-        <li>Replicated doors and world interactions</li>
-        <li>Match scoreboard system</li>
-        <li>Steam Online Sessions (lobby + matchmaking)</li>
-      </ul>
-    </div>
-  </div>
+  <div class="projects">
 
-  <!-- TECH -->
-  <div class="section">
-    <h2>Technical Breakdown</h2>
-
-    <div class="card">
-      <ul>
-        <li>Unreal Engine 5.7 (C++)</li>
-        <li>Actor + Component replication system</li>
-        <li>RPC-based gameplay communication</li>
-        <li>AI Behavior Trees & Perception system</li>
-        <li>Physics replication for interactive objects</li>
-        <li>Dedicated server-ready architecture</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ARCHITECTURE -->
-  <div class="section">
-    <h2>Architecture</h2>
-
-    <div class="card">
-      Server-authoritative design:
-      <br><br>
-      <b>Server:</b> Handles gameplay logic, AI, damage, scoring<br>
-      <b>Clients:</b> Send input requests and receive replicated state<br>
-      <b>Replication:</b> Movement, combat, pickups, and interactions
-    </div>
-  </div>
-
-  <!-- LINKS -->
-  <div class="section">
-    <h2>Links</h2>
-
-    <div class="card">
+    <div class="project">
+      <h3>Co-op Multiplayer Shooter (UE5)</h3>
       <p>
-        GitHub: <a href="https://github.com/Shyaka910/EggMultiplayer">Git Repo</a><br>
-        Video Demo: <a href="https://youtube.com/watch?v=NHxvSuc7H1c">YouTube</a>
+        Fully replicated multiplayer shooter featuring Steam sessions, weapons,
+        pickups, grenades, AI infected, and match scoring.
       </p>
+      <span class="tag">UE5</span>
+      <span class="tag">Multiplayer</span>
+      <span class="tag">C++ / Blueprints</span>
     </div>
-  </div>
 
-</div>
+    <div class="project">
+      <h3>AI Infected System</h3>
+      <p>
+        Behavior Tree-based AI system with perception and dynamic responses to players.
+      </p>
+      <span class="tag">AI</span>
+      <span class="tag">Behavior Tree</span>
+      <span class="tag">UE5</span>
+    </div>
+
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills & Technical Expertise</h2>
+
+  <div class="card">
+    <p>
+      Unreal Engine developer with strong focus on gameplay systems, multiplayer networking,
+      and third-party API integration in real-time game environments.
+    </p>
+
+    <br>
+
+    <ul>
+      <li><strong>Unreal Engine 5:</strong> C++, Blueprints, Gameplay Framework, Replication</li>
+      <li><strong>Multiplayer Systems:</strong> Dedicated servers, Steam Online Sessions</li>
+      <li><strong>AI Systems:</strong> Behavior Trees, AI Perception, Navigation</li>
+      <li><strong>Third-Party Integrations:</strong> AI Speech systems, AWS backend services, Steam SDK, PlayStation systems</li>
+      <li><strong>Gameplay Systems:</strong> Weapons, inventory, interaction systems</li>
+      <li><strong>Studio Experience:</strong> AA environment workflow, teamwork, production pipelines</li>
+    </ul>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+
+  <div class="card">
+    <p>
+      <strong>Email:</strong>
+      <a class="link" href="mailto:shyakadjura@gmail.com">shyakadjura@gmail.com</a>
+    </p>
+
+    <p>
+      <strong>GitHub:</strong>
+      <a class="link" href="https://github.com/Shyaka910/EggMultiplayer" target="_blank">
+        EggMultiplayer Repository
+      </a>
+    </p>
+
+    <p>
+      <strong>LinkedIn:</strong>
+      <a class="link" href="https://www.linkedin.com/in/shyaka-kadjura-180062251/" target="_blank">
+        View Profile
+      </a>
+    </p>
+
+    <p>
+      <strong>Discord:</strong> .shyaka
+    </p>
+
+    <a class="button" href="https://github.com/Shyaka910/EggMultiplayer" target="_blank">
+      View Project
+    </a>
+
+    <a class="button" href="https://youtu.be/NHxvSuc7H1c" target="_blank">
+      Watch Trailer
+    </a>
+  </div>
+</section>
 
 <footer>
-  Built with Unreal Engine 5 C++ • Multiplayer Systems • Portfolio Project
+  © 2026 Shyaka Abdurahim — Unreal Engine Developer Portfolio
 </footer>
 
 </body>
