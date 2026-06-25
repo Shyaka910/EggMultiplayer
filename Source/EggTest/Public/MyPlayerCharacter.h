@@ -67,6 +67,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void EquipeWeapon(class AWeaponActor* Weapon);
 
+	UFUNCTION(BlueprintCallable)
+	void DropWeapon();
+
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EquippedWeapon)
 	AWeaponActor* EquippedWeapon = nullptr;
 

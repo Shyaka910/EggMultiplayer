@@ -203,10 +203,28 @@ void AMyPlayerCharacter::EquipeWeapon(class AWeaponActor* Weapon)
 {
 	if (HasAuthority() && Weapon)
 	{
+		if (EquippedWeapon)
+		{
+			DropWeapon();
+		}
+
+		Weapon->InteractMesh->SetSimulatePhysics(false);
 		Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, Weapon->WeaponAttachSocketName);
 		EquippedWeapon = Weapon;
 		EquippedWeapon->bCanInteract = false;
 		EquippedWeapon->SetOwner(this);
+	}
+}
+
+void AMyPlayerCharacter::DropWeapon()
+{
+	if (HasAuthority() && EquippedWeapon)
+	{
+		EquippedWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		EquippedWeapon->InteractMesh->SetSimulatePhysics(true);
+		EquippedWeapon->bCanInteract = true;
+		EquippedWeapon->SetOwner(nullptr);
+		EquippedWeapon = nullptr;
 	}
 }
 

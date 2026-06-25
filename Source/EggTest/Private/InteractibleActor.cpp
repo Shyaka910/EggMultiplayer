@@ -16,11 +16,11 @@ AInteractibleActor::AInteractibleActor()
 	SetReplicates(true);
 
 	InteractMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DoorMesh"));
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp"));
+	RootComponent = InteractMesh;
 	InteractMesh->SetupAttachment(RootComponent);
 
 	InteractArea = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractArea"));
-	InteractArea->SetupAttachment(RootComponent);
+	InteractArea->SetupAttachment(InteractMesh);
 	InteractArea->SetGenerateOverlapEvents(true);
 
 	InteractArea->OnComponentBeginOverlap.AddDynamic(this, &AInteractibleActor::OnActorBeginOverlap);
@@ -110,6 +110,11 @@ void AInteractibleActor::OnActorEndOverlap(UPrimitiveComponent* OverlappedCompon
 void AInteractibleActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void AInteractibleActor::OnRep_CanInteract()
+{
 
 }
 

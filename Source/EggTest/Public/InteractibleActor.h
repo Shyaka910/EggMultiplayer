@@ -64,7 +64,10 @@ public:
 
 public:
 
-	UPROPERTY(Replicated)
+	UPROPERTY(ReplicatedUsing = OnRep_CanInteract)
 	bool bCanInteract = true;
+
+	UFUNCTION()
+	virtual void OnRep_CanInteract();
 
 };

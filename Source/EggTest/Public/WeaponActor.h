@@ -70,12 +70,15 @@ public:
 
 protected:
 
+	virtual void BeginPlay() override;
+
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void OnRep_CanInteract() override;
 
 private:
 
 	float currentFireTimer = 0;
 	bool bIsFiring = false;
 	bool bFirePressed = false;
-	
 };

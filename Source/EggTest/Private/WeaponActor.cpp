@@ -158,6 +158,13 @@ void AWeaponActor::Mutlicast_PlayCosmetic_Implementation(FVector SocketLocation,
 	}
 }
 
+void AWeaponActor::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InteractMesh->SetSimulatePhysics(true);
+}
+
 void AWeaponActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -183,4 +190,19 @@ void AWeaponActor::Tick(float DeltaTime)
 		bIsFiring = false;
 		currentFireTimer = 0;
 	}*/
+}
+
+void AWeaponActor::OnRep_CanInteract()
+{
+	if (bCanInteract)
+		InteractMesh->SetSimulatePhysics(true);
+	else
+	{
+		InteractMesh->SetSimulatePhysics(false);
+
+		if (ACharacter* MyOwner = Cast<ACharacter>(GetOwner()))
+		{
+			AttachToComponent(MyOwner->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponAttachSocketName);
+		}
+	}
 }
