@@ -75,7 +75,7 @@ void AWeaponActor::StartFire()
 
 			if (ACharacter* Char = Cast<ACharacter>(OwnerChar))
 			{
-				Char->GetMesh()->GetAnimInstance()->Montage_Play(AimMontage);
+				if (!Char->HasAuthority()) Char->GetMesh()->GetAnimInstance()->Montage_Play(AimMontage);
 				Char->GetMesh()->GetAnimInstance()->Montage_JumpToSection(FName("Shoot"));
 			}
 		}
@@ -95,10 +95,15 @@ void AWeaponActor::ServerFire_Implementation(FVector SocketLocation, FRotator So
 
 	if (OwnerChar)
 	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;                 // Weapon or Character
+		SpawnParams.Instigator = OwnerChar; // Usually the firing Pawn
+
 		AActor* BulletActor = GetWorld()->SpawnActor<AActor>(
 			BulletClass,
 			SocketLocation,
-			SocketRotation
+			SocketRotation,
+			SpawnParams
 		);
 
 		FRotator AimRotation = FRotator();
@@ -108,26 +113,21 @@ void AWeaponActor::ServerFire_Implementation(FVector SocketLocation, FRotator So
 		}
 
 		if (BulletActor)
+		{
 			BulletActor->SetOwner(GetOwner());
+			BulletActor->SetInstigator(OwnerChar);
+		}
 
 		if (!OwnerChar->IsLocallyControlled())
 		{
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, SocketLocation,
 				SocketRotation);
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), FireSound, GetActorLocation());
-		}
 
-		// Do line trace to check for hit and damage
-		FHitResult Hit;
-		if (GetWorld()->LineTraceSingleByChannel(
-			Hit,
-			CameraLoc,
-			AimLoc,
-			ECC_Visibility))
-		{
-			if (ACharacter* HitPlayer = Cast<ACharacter>(Hit.GetActor()))
+			if (ACharacter* Char = Cast<ACharacter>(OwnerChar))
 			{
-				OnWeaponFireHit(HitPlayer, BulletActor, Hit);
+				if (!Char->HasAuthority()) Char->GetMesh()->GetAnimInstance()->Montage_Play(AimMontage);
+				Char->GetMesh()->GetAnimInstance()->Montage_JumpToSection(FName("Shoot"));
 			}
 		}
 	}
@@ -146,6 +146,12 @@ void AWeaponActor::Mutlicast_PlayCosmetic_Implementation(FVector SocketLocation,
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, SocketLocation,
 				SocketRotation);
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), FireSound, GetActorLocation());
+
+			if (ACharacter* Char = Cast<ACharacter>(OwnerChar))
+			{
+				Char->GetMesh()->GetAnimInstance()->Montage_Play(AimMontage);
+				Char->GetMesh()->GetAnimInstance()->Montage_JumpToSection(FName("Shoot"));
+			}
 		}
 	}
 }

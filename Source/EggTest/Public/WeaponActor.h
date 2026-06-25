@@ -46,7 +46,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	TSubclassOf<class UCameraShakeBase> FireCameraShake;
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void OnWeaponFireHit(class ACharacter* HitPlayer, AActor* BulletActor, const FHitResult& HitRes);
 
 	virtual void Interact_Implementation(class APawn* InteractPlayer) override;

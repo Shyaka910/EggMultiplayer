@@ -51,7 +51,7 @@ void UMultiplayerSessionSubsystem::OnCreateSessionCompleted(FName SessionName, b
 	
 	if (APlayerController* Controller = GetWorld()->GetFirstPlayerController())
 	{
-		GetWorld()->ServerTravel(FString("/Game/ThirdPerson/Maps/L_LobbyMap?listen"));
+		GetWorld()->ServerTravel(FString("/Game/ResidentHorrorV1/Maps/Map_MechanicMap?listen"));
 	}
 }
 
