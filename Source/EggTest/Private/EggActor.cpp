@@ -26,7 +26,7 @@ AEggActor::AEggActor()
 	MeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComponent"));
-	ProjectileMovement->bAutoActivate = false; // don't move until launched
+	ProjectileMovement->bAutoActivate = true; // don't move until launched
 	ProjectileMovement->SetIsReplicated(true);
 
 	SegmentDistance = 150.f;
