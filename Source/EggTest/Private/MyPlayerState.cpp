@@ -18,13 +18,23 @@ int32 AMyPlayerState::GetPlayerScore()
 	return PlayerScore;
 }
 
-void AMyPlayerState::SetPlayerUserName(FName Name)
+void AMyPlayerState::BeginPlay()
 {
-	if (GetPawn() && GetPawn()->IsLocallyControlled())
+	Super::BeginPlay();
+
+	if (GetOwningController() && GetOwningController()->IsLocalController())
 	{
-		ServerSetPlayerUserName(Name);
+		SetPlayerUserName();
 	}
-	
+}
+
+void AMyPlayerState::SetPlayerUserName()
+{
+	UMultiplayerSessionSubsystem* MultiplayerSession = GetGameInstance()->GetSubsystem<UMultiplayerSessionSubsystem>();
+
+	if (MultiplayerSession)
+		ServerSetPlayerUserName(MultiplayerSession->GetOwningSessionPlayerName());
+
 }
 
 void AMyPlayerState::ServerSetPlayerUserName_Implementation(FName Name)

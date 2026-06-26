@@ -26,5 +26,5 @@ void AMyGameState::OnRep_JoinedPlayers()
 
 void AMyGameState::SetUserNameToPlayer(AMyPlayerState* InPlayer, FName InUserName)
 {
-	InPlayer->SetPlayerUserName(InUserName);
+	
 }

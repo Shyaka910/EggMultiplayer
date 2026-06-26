@@ -26,7 +26,9 @@ public:
 
 protected:
 
-	void SetPlayerUserName(FName Name);
+	virtual void BeginPlay() override;
+
+	void SetPlayerUserName();
 
 	UFUNCTION(Server, Reliable)
 	void ServerSetPlayerUserName(FName Name);
