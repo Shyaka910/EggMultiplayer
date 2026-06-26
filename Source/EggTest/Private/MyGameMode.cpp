@@ -38,8 +38,6 @@ void AMyGameMode::PostLogin(APlayerController* Newplayer)
 	{
 		if (AMyPlayerState* PS = Newplayer->GetPlayerState<AMyPlayerState>())
 		{
-			FString Name = FString::Printf(TEXT("Player_%d"), ++PlayerJoinCount);
-			GS->SetUserNameToPlayer(PS,*Name);
 			GS->JoinedPlayers.Add(PS);
 			GS->OnPlayerJoined.Broadcast(PS);
 		}

@@ -3,6 +3,7 @@
 
 #include "MyPlayerState.h"
 #include "Net/UnrealNetwork.h"
+#include "MultiplayerSessionSubsystem.h"
 
 void AMyPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -18,6 +19,15 @@ int32 AMyPlayerState::GetPlayerScore()
 }
 
 void AMyPlayerState::SetPlayerUserName(FName Name)
+{
+	if (GetPawn() && GetPawn()->IsLocallyControlled())
+	{
+		ServerSetPlayerUserName(Name);
+	}
+	
+}
+
+void AMyPlayerState::ServerSetPlayerUserName_Implementation(FName Name)
 {
 	PlayerUserName = Name;
 }

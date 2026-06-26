@@ -37,6 +37,12 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool GetIsSessionInProgress() const;
 
+	UFUNCTION(BlueprintCallable)
+	void SetOwningSessionPlayerName(FName PlayerName);
+
+	UFUNCTION(BlueprintPure)
+	FName GetOwningSessionPlayerName();
+
 protected:
 
 	void OnCreateSessionCompleted(FName SessionName, bool bWasSuccessul);
@@ -44,6 +50,8 @@ protected:
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
 private:
+
+	FName OwningSessionPlayerName;
 	
 	FOnCreateSessionCompleteDelegate CreateSessionCompleteDelegate;
 	FOnFindSessionsCompleteDelegate FindSessionCompleteDelegate;

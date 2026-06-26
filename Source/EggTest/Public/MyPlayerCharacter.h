@@ -28,6 +28,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class UCombatComponent* CombatComponent;
 
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
 	/*

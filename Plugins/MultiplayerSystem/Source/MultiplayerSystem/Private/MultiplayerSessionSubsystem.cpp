@@ -134,3 +134,13 @@ bool UMultiplayerSessionSubsystem::GetIsSessionInProgress() const
 {
 	return SessionInterface ? SessionInterface->GetSessionState(NAME_GameSession) == EOnlineSessionState::InProgress : false;
 }
+
+void UMultiplayerSessionSubsystem::SetOwningSessionPlayerName(FName PlayerName)
+{
+	OwningSessionPlayerName = PlayerName;
+}
+
+FName UMultiplayerSessionSubsystem::GetOwningSessionPlayerName()
+{
+	return OwningSessionPlayerName;
+}

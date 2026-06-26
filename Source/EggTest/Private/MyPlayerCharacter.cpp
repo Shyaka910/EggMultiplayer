@@ -38,6 +38,11 @@ class UAbilitySystemComponent* AMyPlayerCharacter::GetAbilitySystemComponent() c
 	return PlayerAbilityComponent;
 }
 
+void AMyPlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 void AMyPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

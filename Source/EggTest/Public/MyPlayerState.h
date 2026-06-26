@@ -27,6 +27,10 @@ public:
 protected:
 
 	void SetPlayerUserName(FName Name);
+
+	UFUNCTION(Server, Reliable)
+	void ServerSetPlayerUserName(FName Name);
+
 	void AddScore(int32 score);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
