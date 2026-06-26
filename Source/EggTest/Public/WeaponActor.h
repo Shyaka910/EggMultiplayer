@@ -19,6 +19,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	bool bIsAuto = false;
 
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = Weapon)
+	int32 CurrentMaganizeSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	int32 MaxMaganizeSize = 10;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = Weapon)
+	int32 CurrentBulletsCount = 50;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	int32 MaxBulletsCount = 100;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	float FireRate = 1.f;
 
@@ -44,7 +56,13 @@ public:
 	class UAnimMontage* AimMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	class UAnimMontage* ReloadMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	TSubclassOf<class UCameraShakeBase> FireCameraShake;
+
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = Weapon)
+	bool bCanShoot;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void OnWeaponFireHit(class ACharacter* HitPlayer, AActor* BulletActor, const FHitResult& HitRes);
@@ -68,11 +86,19 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void Mutlicast_PlayCosmetic(FVector SocketLocation, FRotator SocketRotation);
 
+	UFUNCTION(BlueprintCallable)
+	void AddBullets(int32 BulletNum);
+
+	UFUNCTION(BlueprintCallable)
+	void ReloadWeapon();
+
 protected:
 
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	virtual void OnRep_CanInteract() override;
 

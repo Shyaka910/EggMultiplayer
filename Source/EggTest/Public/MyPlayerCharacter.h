@@ -73,6 +73,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EquippedWeapon)
 	AWeaponActor* EquippedWeapon = nullptr;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnAutoWeaponNeedsReload();
+
 	UFUNCTION()
 	void OnRep_EquippedWeapon();
 

@@ -5,6 +5,7 @@
 #include "MyPlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
+#include "Net/UnrealNetwork.h"
 
 void AWeaponActor::Interact_Implementation(class APawn* InteractPlayer)
 {
@@ -20,12 +21,22 @@ void AWeaponActor::Interact_Implementation(class APawn* InteractPlayer)
 
 void AWeaponActor::Fire()
 {
+	if (!bCanShoot) return;
+
 	bFirePressed = true;
 	if (!bIsFiring) StartFire();
 }
 
 void AWeaponActor::StartFire()
 {
+	if (!bCanShoot)
+	{
+		AMyPlayerCharacter* Char = Cast<AMyPlayerCharacter>(GetOwner());
+		if (Char) Char->OnAutoWeaponNeedsReload();
+		EndFire();
+		return;
+	}
+
 	if (currentFireTimer <= 0.f)
 	{
 		bIsFiring = true;
@@ -112,6 +123,13 @@ void AWeaponActor::ServerFire_Implementation(FVector SocketLocation, FRotator So
 			AimRotation = OwnerChar->GetControlRotation();
 		}
 
+		// Detact magazine count
+		if (CurrentMaganizeSize > 0)
+		{
+			--CurrentMaganizeSize;
+			bCanShoot = CurrentMaganizeSize > 0;
+		}
+
 		if (BulletActor)
 		{
 			BulletActor->SetOwner(GetOwner());
@@ -158,11 +176,18 @@ void AWeaponActor::Mutlicast_PlayCosmetic_Implementation(FVector SocketLocation,
 	}
 }
 
+
 void AWeaponActor::BeginPlay()
 {
 	Super::BeginPlay();
 
 	InteractMesh->SetSimulatePhysics(true);
+
+	if (HasAuthority())
+	{
+		CurrentMaganizeSize = MaxMaganizeSize;
+		bCanShoot = true;
+	}
 }
 
 void AWeaponActor::Tick(float DeltaTime)
@@ -191,6 +216,52 @@ void AWeaponActor::Tick(float DeltaTime)
 		currentFireTimer = 0;
 	}*/
 }
+
+void AWeaponActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AWeaponActor, CurrentBulletsCount);
+	DOREPLIFETIME(AWeaponActor, CurrentMaganizeSize);
+	DOREPLIFETIME(AWeaponActor, bCanShoot);
+}
+
+void AWeaponActor::AddBullets(int32 BulletNum)
+{
+	if (!HasAuthority()) return;
+
+	int32 targetBulletNum = CurrentBulletsCount + BulletNum;
+
+	if (targetBulletNum < MaxBulletsCount)
+	{
+		CurrentBulletsCount = targetBulletNum;
+	}
+	else
+		CurrentBulletsCount = MaxBulletsCount;
+}
+
+void AWeaponActor::ReloadWeapon()
+{
+	if (!HasAuthority()) return;
+
+	if (CurrentBulletsCount <= 0) return;
+
+	int32 MagazineSizeToAdd = MaxMaganizeSize - CurrentMaganizeSize;
+
+	if ((CurrentBulletsCount - MagazineSizeToAdd) > 0)
+	{
+		CurrentMaganizeSize += MagazineSizeToAdd;
+		CurrentBulletsCount -= MagazineSizeToAdd;
+	}
+	else
+	{
+		CurrentMaganizeSize += CurrentBulletsCount;
+		CurrentBulletsCount = 0;
+	}
+
+	bCanShoot = true;
+}
+
 
 void AWeaponActor::OnRep_CanInteract()
 {
