@@ -53,7 +53,7 @@ void AMyPlayerCharacter::TravelToMap(FName MapName , bool bBacktoLobbyMap)
 {
 	if (!HasAuthority()) return;
 
-	FString ServerMapName = FString::Printf(TEXT("/Game/ResidentHorrorV1/Maps/%s?listen"), *MapName.ToString());
+	FString ServerMapName = FString::Printf(TEXT("/Game/Modular_Rural_Cabin/Maps/%s?listen"), *MapName.ToString());
 	GetWorld()->ServerTravel(ServerMapName);
 
 	if (UMultiplayerSessionSubsystem* SessionSubsystem = GetGameInstance()->GetSubsystem<UMultiplayerSessionSubsystem>())
@@ -246,6 +246,19 @@ bool AMyPlayerCharacter::IsWeaponEquipped()
 	return EquippedWeapon != nullptr;
 }
 
+void AMyPlayerCharacter::SetHiddingInTallGrass(bool Value)
+{
+	if (HasAuthority())
+	{
+		bIsHiddingInTallGrass = Value;
+	}
+}
+
+bool AMyPlayerCharacter::IsHiddingInTallGrass()
+{
+	return bIsHiddingInTallGrass;
+}
+
 void AMyPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -254,6 +267,7 @@ void AMyPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(AMyPlayerCharacter, OtherPlayerEggToThrow);
 	DOREPLIFETIME(AMyPlayerCharacter, EquippedCube);
 	DOREPLIFETIME(AMyPlayerCharacter, EquippedWeapon);
+	DOREPLIFETIME(AMyPlayerCharacter, bIsHiddingInTallGrass);
 }
 
 

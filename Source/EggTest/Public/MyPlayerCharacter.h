@@ -83,6 +83,12 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool IsWeaponEquipped();
 
+	UFUNCTION(BlueprintCallable)
+	void SetHiddingInTallGrass(bool Value);
+
+	UFUNCTION(BlueprintPure)
+	bool IsHiddingInTallGrass();
+
 	// Trail array
 	UPROPERTY(Replicated)
 	TArray<AEggActor*> EggTrail;
@@ -118,5 +124,10 @@ protected:
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex
 	);
+
+private:
+
+	UPROPERTY(Replicated)
+	bool bIsHiddingInTallGrass = false;
 };
 
