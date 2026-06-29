@@ -57,14 +57,29 @@ void AWeaponActor::StartFire()
 	FVector AimPoint = CameraLoc + CameraRot.Vector() * 100000.f;
 
 	// Optional trace to get actual hit point
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(this);
+	ActorsToIgnore.Add(GetOwner());
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActors(ActorsToIgnore);
+
 	FHitResult Hit;
 	if (GetWorld()->LineTraceSingleByChannel(
 		Hit,
 		CameraLoc,
 		AimPoint,
-		ECC_Visibility))
+		ECC_Visibility, QueryParams))
 	{
 		AimPoint = Hit.ImpactPoint;
+		bool bHeadShoot = Hit.BoneName == FName("head");
+		
+		if (ACharacter* InHitPlayer = Cast<ACharacter>(Hit.GetActor()))
+		{
+			OnWeaponFireHit(InHitPlayer, nullptr, Hit);
+		}
+
+		OnWeaponHitTarget.Broadcast(Hit.GetActor(), bHeadShoot);
 	}
 
 	FVector MuzzleLoc = InteractMesh->GetSocketLocation(WeaponMuzzleSocketName);

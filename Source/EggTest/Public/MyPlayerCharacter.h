@@ -9,6 +9,8 @@
 
 class AEggActor;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWeaponEquipped);
+
 UCLASS()
 class EGGTEST_API AMyPlayerCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -27,6 +29,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class UCombatComponent* CombatComponent;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnWeaponEquipped OnWeaponEquipped;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
@@ -99,7 +104,7 @@ public:
 	UPROPERTY(Replicated)
 	class ACubeActor* EquippedCube;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Replicated)
 	class AInteractibleActor* AvailableInteractingActor = nullptr;
 
 protected:

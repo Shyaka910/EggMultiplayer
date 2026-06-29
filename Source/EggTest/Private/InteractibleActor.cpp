@@ -78,18 +78,15 @@ void AInteractibleActor::OnActorBeginOverlap(UPrimitiveComponent* OverlappedComp
 {
 	if (AMyPlayerCharacter* Player = Cast<AMyPlayerCharacter>(OtherActor))
 	{
-		if (Player->IsLocallyControlled())
+		if (bCanInteract)
 		{
-			if (bCanInteract)
-			{
-				Player->AvailableInteractingActor = this;
-				WidgetComp->SetVisibility(true);
-			}
-			else
-			{
-				Player->AvailableInteractingActor = nullptr;
-				WidgetComp->SetVisibility(false);
-			}
+			if(Player->HasAuthority()) Player->AvailableInteractingActor = this;
+			if(Player->IsLocallyControlled()) WidgetComp->SetVisibility(true);
+		}
+		else
+		{
+			if(Player->HasAuthority()) Player->AvailableInteractingActor = nullptr;
+			if(Player->IsLocallyControlled()) WidgetComp->SetVisibility(false);
 		}
 	}
 }
@@ -98,11 +95,8 @@ void AInteractibleActor::OnActorEndOverlap(UPrimitiveComponent* OverlappedCompon
 {
 	if (AMyPlayerCharacter* Player = Cast<AMyPlayerCharacter>(OtherActor))
 	{
-		if (Player->IsLocallyControlled())
-		{
-			Player->AvailableInteractingActor = nullptr;
-			WidgetComp->SetVisibility(false);
-		}
+		if(Player->HasAuthority()) Player->AvailableInteractingActor = nullptr;
+		if(Player->IsLocallyControlled()) WidgetComp->SetVisibility(false);
 	}
 }
 

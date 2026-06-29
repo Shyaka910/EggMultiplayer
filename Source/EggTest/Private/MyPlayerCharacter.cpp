@@ -218,6 +218,7 @@ void AMyPlayerCharacter::EquipeWeapon(class AWeaponActor* Weapon)
 		EquippedWeapon = Weapon;
 		EquippedWeapon->bCanInteract = false;
 		EquippedWeapon->SetOwner(this);
+		OnWeaponEquipped.Broadcast();
 	}
 }
 
@@ -238,6 +239,7 @@ void AMyPlayerCharacter::OnRep_EquippedWeapon()
 	if (EquippedWeapon)
 	{
 		EquippedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, EquippedWeapon->WeaponAttachSocketName);
+		OnWeaponEquipped.Broadcast();
 	}
 }
 
@@ -268,6 +270,7 @@ void AMyPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(AMyPlayerCharacter, EquippedCube);
 	DOREPLIFETIME(AMyPlayerCharacter, EquippedWeapon);
 	DOREPLIFETIME(AMyPlayerCharacter, bIsHiddingInTallGrass);
+	DOREPLIFETIME(AMyPlayerCharacter, AvailableInteractingActor);
 }
 
 

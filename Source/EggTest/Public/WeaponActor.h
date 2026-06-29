@@ -6,6 +6,8 @@
 #include "InteractibleActor.h"
 #include "WeaponActor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnWeaponHitTarget, AActor*, TargetActor, bool, IsHeadShoot);
+
 /**
  * 
  */
@@ -63,6 +65,11 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Replicated, Category = Weapon)
 	bool bCanShoot;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnWeaponHitTarget OnWeaponHitTarget;
+
+public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void OnWeaponFireHit(class ACharacter* HitPlayer, AActor* BulletActor, const FHitResult& HitRes);
