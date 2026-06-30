@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractibleActor.h"
+#include "EquippableActor.h"
 #include "WeaponActor.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnWeaponHitTarget, AActor*, TargetActor, bool, IsHeadShoot);
@@ -12,7 +12,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnWeaponHitTarget, AActor*, Target
  * 
  */
 UCLASS()
-class EGGTEST_API AWeaponActor : public AInteractibleActor
+class EGGTEST_API AWeaponActor : public AEquippableActor
 {
 	GENERATED_BODY()
 
@@ -38,9 +38,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	float DamageRate = 20.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
-	FName WeaponAttachSocketName = "";
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	FName WeaponMuzzleSocketName = "";

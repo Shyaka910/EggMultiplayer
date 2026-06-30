@@ -9,7 +9,7 @@
 
 class AEggActor;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWeaponEquipped);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnActorEquipped);
 
 UCLASS()
 class EGGTEST_API AMyPlayerCharacter : public ACharacter, public IAbilitySystemInterface
@@ -31,7 +31,7 @@ public:
 	class UCombatComponent* CombatComponent;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnWeaponEquipped OnWeaponEquipped;
+	FOnActorEquipped OnActorEquipped;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
@@ -71,19 +71,16 @@ public:
 	void ServerRemoveOverlappedEgg(AActor* OtherActor);
 
 	UFUNCTION(BlueprintCallable)
-	void EquipeWeapon(class AWeaponActor* Weapon);
+	void EquipeActor(class AEquippableActor* EquipeActor);
 
 	UFUNCTION(BlueprintCallable)
-	void DropWeapon();
-
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EquippedWeapon)
-	AWeaponActor* EquippedWeapon = nullptr;
+	void DropEquippedActor();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnAutoWeaponNeedsReload();
 
 	UFUNCTION()
-	void OnRep_EquippedWeapon();
+	void OnRep_EquippedActor();
 
 	UFUNCTION(BlueprintPure)
 	bool IsWeaponEquipped();
@@ -106,6 +103,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Replicated)
 	class AInteractibleActor* AvailableInteractingActor = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EquippedActor)
+	class AEquippableActor* CurrentEquippedActor = nullptr;
 
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

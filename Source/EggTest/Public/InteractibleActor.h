@@ -25,6 +25,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	class UWidgetComponent* WidgetComp;
 
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	class UWidgetComponent* PossibleInteractWidget;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -58,7 +61,7 @@ protected:
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex);
 
-public:	
+protected:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -69,5 +72,9 @@ public:
 
 	UFUNCTION()
 	virtual void OnRep_CanInteract();
+
+private:
+
+	APawn* ViewingPlayer = nullptr;
 
 };

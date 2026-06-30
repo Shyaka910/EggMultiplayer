@@ -11,12 +11,6 @@ void AWeaponActor::Interact_Implementation(class APawn* InteractPlayer)
 {
 	// this function is called only on the server
 	Super::Interact_Implementation(InteractPlayer);
-
-	if (AMyPlayerCharacter* Player = Cast<AMyPlayerCharacter>(InteractPlayer))
-	{
-		if (bCanInteract)
-			Player->EquipeWeapon(this);
-	}
 }
 
 void AWeaponActor::Fire()
@@ -280,15 +274,5 @@ void AWeaponActor::ReloadWeapon()
 
 void AWeaponActor::OnRep_CanInteract()
 {
-	if (bCanInteract)
-		InteractMesh->SetSimulatePhysics(true);
-	else
-	{
-		InteractMesh->SetSimulatePhysics(false);
-
-		if (ACharacter* MyOwner = Cast<ACharacter>(GetOwner()))
-		{
-			AttachToComponent(MyOwner->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponAttachSocketName);
-		}
-	}
+	Super::OnRep_CanInteract();
 }

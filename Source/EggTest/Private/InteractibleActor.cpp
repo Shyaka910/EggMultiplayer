@@ -28,6 +28,12 @@ AInteractibleActor::AInteractibleActor()
 
 	WidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("InteractWidget"));
 	WidgetComp->SetupAttachment(InteractMesh);
+	WidgetComp->SetWidgetSpace(EWidgetSpace::Screen);
+	WidgetComp->SetVisibility(false);
+
+	PossibleInteractWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("PossibleInteractWidget"));
+	PossibleInteractWidget->SetupAttachment(InteractMesh);
+	PossibleInteractWidget->SetWidgetSpace(EWidgetSpace::Screen);
 }
 
 // Called when the game starts or when spawned
@@ -104,6 +110,20 @@ void AInteractibleActor::OnActorEndOverlap(UPrimitiveComponent* OverlappedCompon
 void AInteractibleActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (!ViewingPlayer)
+	{
+		if (APawn* Player = Cast<APawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+		{
+			ViewingPlayer = Player;
+		}
+	}
+	else if(ViewingPlayer)
+	{
+		float Distance = FVector::Distance(ViewingPlayer->GetActorLocation(), GetActorLocation());
+
+		PossibleInteractWidget->SetVisibility(Distance < 400.f && Distance > 200.f && bCanInteract);
+	}
 
 }
 

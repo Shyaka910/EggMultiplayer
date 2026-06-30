@@ -14,6 +14,7 @@
 #include "Components/CharacterAbilitySystemComponent.h"
 #include "Gameplay/CharacterAttributeSet.h"
 #include "WeaponActor.h"
+#include "EquippableActor.h"
 
 AMyPlayerCharacter::AMyPlayerCharacter()
 {
@@ -204,48 +205,48 @@ void AMyPlayerCharacter::ServerRemoveOverlappedEgg_Implementation(AActor* OtherA
 	}
 }
 
-void AMyPlayerCharacter::EquipeWeapon(class AWeaponActor* Weapon)
+void AMyPlayerCharacter::EquipeActor(AEquippableActor* EquipeActor)
 {
-	if (HasAuthority() && Weapon)
+	if (HasAuthority() && EquipeActor)
 	{
-		if (EquippedWeapon)
+		if (CurrentEquippedActor)
 		{
-			DropWeapon();
+			DropEquippedActor();
 		}
 
-		Weapon->InteractMesh->SetSimulatePhysics(false);
-		Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, Weapon->WeaponAttachSocketName);
-		EquippedWeapon = Weapon;
-		EquippedWeapon->bCanInteract = false;
-		EquippedWeapon->SetOwner(this);
-		OnWeaponEquipped.Broadcast();
+		EquipeActor->InteractMesh->SetSimulatePhysics(false);
+		EquipeActor->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, EquipeActor->ActorAttachSocketName);
+		CurrentEquippedActor = EquipeActor;
+		CurrentEquippedActor->bCanInteract = false;
+		CurrentEquippedActor->SetOwner(this);
+		OnActorEquipped.Broadcast();
 	}
 }
 
-void AMyPlayerCharacter::DropWeapon()
+void AMyPlayerCharacter::DropEquippedActor()
 {
-	if (HasAuthority() && EquippedWeapon)
+	if (HasAuthority() && CurrentEquippedActor)
 	{
-		EquippedWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		EquippedWeapon->InteractMesh->SetSimulatePhysics(true);
-		EquippedWeapon->bCanInteract = true;
-		EquippedWeapon->SetOwner(nullptr);
-		EquippedWeapon = nullptr;
+		CurrentEquippedActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		CurrentEquippedActor->InteractMesh->SetSimulatePhysics(true);
+		CurrentEquippedActor->bCanInteract = true;
+		CurrentEquippedActor->SetOwner(nullptr);
+		CurrentEquippedActor = nullptr;
 	}
 }
 
-void AMyPlayerCharacter::OnRep_EquippedWeapon()
+void AMyPlayerCharacter::OnRep_EquippedActor()
 {
-	if (EquippedWeapon)
+	if (CurrentEquippedActor)
 	{
-		EquippedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, EquippedWeapon->WeaponAttachSocketName);
-		OnWeaponEquipped.Broadcast();
+		CurrentEquippedActor->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, CurrentEquippedActor->ActorAttachSocketName);
+		OnActorEquipped.Broadcast();
 	}
 }
 
 bool AMyPlayerCharacter::IsWeaponEquipped()
 {
-	return EquippedWeapon != nullptr;
+	return CurrentEquippedActor != nullptr;
 }
 
 void AMyPlayerCharacter::SetHiddingInTallGrass(bool Value)
@@ -268,7 +269,7 @@ void AMyPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(AMyPlayerCharacter, EggTrail);
 	DOREPLIFETIME(AMyPlayerCharacter, OtherPlayerEggToThrow);
 	DOREPLIFETIME(AMyPlayerCharacter, EquippedCube);
-	DOREPLIFETIME(AMyPlayerCharacter, EquippedWeapon);
+	DOREPLIFETIME(AMyPlayerCharacter, CurrentEquippedActor);
 	DOREPLIFETIME(AMyPlayerCharacter, bIsHiddingInTallGrass);
 	DOREPLIFETIME(AMyPlayerCharacter, AvailableInteractingActor);
 }
