@@ -217,7 +217,7 @@ void AMyPlayerCharacter::EquipeActor(AEquippableActor* EquipeActor)
 		EquipeActor->InteractMesh->SetSimulatePhysics(false);
 		EquipeActor->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, EquipeActor->ActorAttachSocketName);
 		CurrentEquippedActor = EquipeActor;
-		CurrentEquippedActor->bCanInteract = false;
+		IInteractInterface::Execute_SetCanInteract(CurrentEquippedActor, false);
 		CurrentEquippedActor->SetOwner(this);
 		OnActorEquipped.Broadcast();
 	}
@@ -228,8 +228,9 @@ void AMyPlayerCharacter::DropEquippedActor()
 	if (HasAuthority() && CurrentEquippedActor)
 	{
 		CurrentEquippedActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		CurrentEquippedActor->InteractMesh->SetSimulatePhysics(true);
-		CurrentEquippedActor->bCanInteract = true;
+		if(CurrentEquippedActor->bAutoSimulatePhyisicsOnDrop) 
+			CurrentEquippedActor->InteractMesh->SetSimulatePhysics(true);
+		IInteractInterface::Execute_SetCanInteract(CurrentEquippedActor, true);
 		CurrentEquippedActor->SetOwner(nullptr);
 		CurrentEquippedActor = nullptr;
 	}

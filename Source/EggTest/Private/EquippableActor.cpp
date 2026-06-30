@@ -19,11 +19,12 @@ void AEquippableActor::OnRep_CanInteract()
 {
 	Super::OnRep_CanInteract();
 
-	if (bCanInteract)
+	if (bCanInteract && bAutoSimulatePhyisicsOnDrop)
 		InteractMesh->SetSimulatePhysics(true);
-	else
+	else if(!bCanInteract)
 	{
-		InteractMesh->SetSimulatePhysics(false);
+		if (bAutoSimulatePhyisicsOnDrop)
+			InteractMesh->SetSimulatePhysics(false);
 
 		if (ACharacter* MyOwner = Cast<ACharacter>(GetOwner()))
 		{

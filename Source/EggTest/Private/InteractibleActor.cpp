@@ -113,9 +113,15 @@ void AInteractibleActor::Tick(float DeltaTime)
 
 	if (!ViewingPlayer)
 	{
-		if (APawn* Player = Cast<APawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+		if(APlayerController* Control = GetWorld()->GetFirstPlayerController())
 		{
-			ViewingPlayer = Player;
+			if (Control->IsLocalController())
+			{
+				if (APawn* Player = Cast<APawn>(Control->GetPawn()))
+				{
+					ViewingPlayer = Player;
+				}
+			}
 		}
 	}
 	else if(ViewingPlayer)

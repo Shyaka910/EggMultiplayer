@@ -17,8 +17,11 @@ class EGGTEST_API AEquippableActor : public AInteractibleActor
 
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Equippable)
 	FName ActorAttachSocketName = "";
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Equippable)
+	bool bAutoSimulatePhyisicsOnDrop = true;
 
 protected:
 
