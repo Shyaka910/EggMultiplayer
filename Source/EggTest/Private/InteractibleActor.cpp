@@ -34,6 +34,7 @@ AInteractibleActor::AInteractibleActor()
 	PossibleInteractWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("PossibleInteractWidget"));
 	PossibleInteractWidget->SetupAttachment(InteractMesh);
 	PossibleInteractWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	PossibleInteractWidget->SetDrawSize(FVector2D(25.f, 25.f));
 }
 
 // Called when the game starts or when spawned
