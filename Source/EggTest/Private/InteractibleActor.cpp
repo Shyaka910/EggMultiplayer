@@ -17,7 +17,6 @@ AInteractibleActor::AInteractibleActor()
 
 	InteractMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DoorMesh"));
 	RootComponent = InteractMesh;
-	InteractMesh->SetupAttachment(RootComponent);
 
 	InteractArea = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractArea"));
 	InteractArea->SetupAttachment(InteractMesh);
