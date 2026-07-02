@@ -1,2 +1,2 @@
 Gameplay demo
-[![Gameplay Demo](https://img.youtube.com/vi/iZiv5i2lqpw/maxresdefault.jpg)](https://youtu.be/J8_YthHjtII)
+[![Gameplay Demo](https://img.youtube.com/vi/mGmGGpNKy-Y/maxresdefault.jpg)](https://youtu.be/mGmGGpNKy-Y)
