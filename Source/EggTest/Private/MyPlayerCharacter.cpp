@@ -15,6 +15,7 @@
 #include "Gameplay/CharacterAttributeSet.h"
 #include "WeaponActor.h"
 #include "EquippableActor.h"
+#include "Components/WidgetComponent.h"
 
 AMyPlayerCharacter::AMyPlayerCharacter()
 {
@@ -218,6 +219,7 @@ void AMyPlayerCharacter::EquipeActor(AEquippableActor* EquipeActor)
 		EquipeActor->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, EquipeActor->ActorAttachSocketName);
 		CurrentEquippedActor = EquipeActor;
 		IInteractInterface::Execute_SetCanInteract(CurrentEquippedActor, false);
+		AvailableInteractingActors.Remove(CurrentEquippedActor);
 		CurrentEquippedActor->SetOwner(this);
 		OnActorEquipped.Broadcast();
 	}
@@ -232,6 +234,8 @@ void AMyPlayerCharacter::DropEquippedActor()
 			CurrentEquippedActor->InteractMesh->SetSimulatePhysics(true);
 		IInteractInterface::Execute_SetCanInteract(CurrentEquippedActor, true);
 		CurrentEquippedActor->SetOwner(nullptr);
+		CurrentEquippedActor->WidgetComp->SetVisibility(true);
+		AvailableInteractingActors.Add(CurrentEquippedActor);
 		CurrentEquippedActor = nullptr;
 	}
 }
@@ -263,6 +267,29 @@ bool AMyPlayerCharacter::IsHiddingInTallGrass()
 	return bIsHiddingInTallGrass;
 }
 
+const AInteractibleActor* AMyPlayerCharacter::GetClosestInteractActor() const
+{
+	if (AvailableInteractingActors.IsEmpty())
+	{
+		return nullptr;
+	}
+
+	AInteractibleActor* Closest = AvailableInteractingActors[0];
+	float ClosestDist = FVector::Dist(Closest->GetActorLocation(), GetActorLocation());
+
+	for (const auto& InActor : AvailableInteractingActors)
+	{
+		float DistResult = FVector::Dist(InActor->GetActorLocation(), GetActorLocation());
+		if (DistResult < ClosestDist)
+		{
+			Closest = InActor;
+			ClosestDist = DistResult;
+		}
+	}
+
+	return Closest;
+}
+
 void AMyPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -272,7 +299,7 @@ void AMyPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(AMyPlayerCharacter, EquippedCube);
 	DOREPLIFETIME(AMyPlayerCharacter, CurrentEquippedActor);
 	DOREPLIFETIME(AMyPlayerCharacter, bIsHiddingInTallGrass);
-	DOREPLIFETIME(AMyPlayerCharacter, AvailableInteractingActor);
+	DOREPLIFETIME(AMyPlayerCharacter, AvailableInteractingActors);
 }
 
 

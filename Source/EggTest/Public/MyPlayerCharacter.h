@@ -91,6 +91,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool IsHiddingInTallGrass();
 
+	UFUNCTION(BlueprintPure)
+	const class AInteractibleActor* GetClosestInteractActor() const;
+
 	// Trail array
 	UPROPERTY(Replicated)
 	TArray<AEggActor*> EggTrail;
@@ -102,7 +105,7 @@ public:
 	class ACubeActor* EquippedCube;
 
 	UPROPERTY(BlueprintReadOnly, Replicated)
-	class AInteractibleActor* AvailableInteractingActor = nullptr;
+	TArray<class AInteractibleActor*> AvailableInteractingActors;
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EquippedActor)
 	class AEquippableActor* CurrentEquippedActor = nullptr;

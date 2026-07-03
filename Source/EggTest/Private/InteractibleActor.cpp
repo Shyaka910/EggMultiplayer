@@ -86,12 +86,11 @@ void AInteractibleActor::OnActorBeginOverlap(UPrimitiveComponent* OverlappedComp
 	{
 		if (bCanInteract)
 		{
-			if(Player->HasAuthority()) Player->AvailableInteractingActor = this;
-			if(Player->IsLocallyControlled()) WidgetComp->SetVisibility(true);
+			if(Player->HasAuthority()) Player->AvailableInteractingActors.Add(this);
 		}
 		else
 		{
-			if(Player->HasAuthority()) Player->AvailableInteractingActor = nullptr;
+			if(Player->HasAuthority()) Player->AvailableInteractingActors.Remove(this);
 			if(Player->IsLocallyControlled()) WidgetComp->SetVisibility(false);
 		}
 	}
@@ -101,7 +100,7 @@ void AInteractibleActor::OnActorEndOverlap(UPrimitiveComponent* OverlappedCompon
 {
 	if (AMyPlayerCharacter* Player = Cast<AMyPlayerCharacter>(OtherActor))
 	{
-		if(Player->HasAuthority()) Player->AvailableInteractingActor = nullptr;
+		if(Player->HasAuthority()) Player->AvailableInteractingActors.Remove(this);
 		if(Player->IsLocallyControlled()) WidgetComp->SetVisibility(false);
 	}
 }
@@ -129,6 +128,9 @@ void AInteractibleActor::Tick(float DeltaTime)
 		float Distance = FVector::Distance(ViewingPlayer->GetActorLocation(), GetActorLocation());
 
 		PossibleInteractWidget->SetVisibility(Distance < 400.f && Distance > 200.f && bCanInteract);
+
+		if (AMyPlayerCharacter* InChar = Cast<AMyPlayerCharacter>(ViewingPlayer))
+			WidgetComp->SetVisibility(InChar->GetClosestInteractActor() == this);
 	}
 
 }

@@ -11,7 +11,10 @@ void AEquippableActor::OnInteract_Implementation(class APawn* InteractPlayer)
 	if (AMyPlayerCharacter* Player = Cast<AMyPlayerCharacter>(InteractPlayer))
 	{
 		if (bCanInteract)
+		{
 			Player->EquipeActor(this);
+			Player->AvailableInteractingActors.Remove(this);
+		}
 	}
 }
 
