@@ -6,60 +6,103 @@
 
 bool UMyBlueprintFunctionLibrary::GetOffScreenIndicatorPosition(APlayerController* PC, FVector WorldLocation, FVector2D& OutScreenPos, float& OutAngleDegrees, bool& bIsOnScreen)
 {
-    if (!PC) return false;
+    if (!PC)
+        return false;
 
-    // --- Get DPI scale (THIS is what you're missing in most systems)
-    const float DPIScale = UWidgetLayoutLibrary::GetViewportScale(PC);
+    int32 ViewportX;
+    int32 ViewportY;
+    PC->GetViewportSize(ViewportX, ViewportY);
 
-    int32 SizeX, SizeY;
-    PC->GetViewportSize(SizeX, SizeY);
+    float DPIScale = UWidgetLayoutLibrary::GetViewportScale(PC);
 
-    // Convert to "Slate-style scaled space"
-    const FVector2D ViewportSize(SizeX, SizeY);
-    const FVector2D ScreenCenter = ViewportSize * 0.5f;
+    FVector2D ViewportSize(
+        ViewportX / DPIScale,
+        ViewportY / DPIScale
+    );
 
-    FVector ScreenPos;
+    FVector2D ScreenPosition;
 
-    // Project world → screen
-    bool bProjected = PC->ProjectWorldLocationToScreenWithDistance(WorldLocation, ScreenPos);
-    if (!bProjected) return false;
+    if (!PC->ProjectWorldLocationToScreen(WorldLocation, ScreenPosition))
+        return false;
 
-    // Apply DPI correction (IMPORTANT FIX)
-    ScreenPos /= DPIScale;
 
-    // Check if on screen (in DPI-corrected space)
+    // Convert projected position into UMG space
+    ScreenPosition /= DPIScale;
+
+
+    // Check if enemy is visible on screen
     bIsOnScreen =
-        ScreenPos.X >= 0.f && ScreenPos.X <= ViewportSize.X &&
-        ScreenPos.Y >= 0.f && ScreenPos.Y <= ViewportSize.Y;
+        ScreenPosition.X >= 0 &&
+        ScreenPosition.X <= ViewportSize.X &&
+        ScreenPosition.Y >= 0 &&
+        ScreenPosition.Y <= ViewportSize.Y;
+
 
     if (bIsOnScreen)
     {
-        OutScreenPos = FVector2D(ScreenPos.X, ScreenPos.Y);
+        OutScreenPos = ScreenPosition;
         OutAngleDegrees = 0.f;
         return true;
     }
 
-    // --- OFF SCREEN LOGIC (direction-based, NOT clamp-based)
 
-    FVector2D Dir = (OutScreenPos - ScreenCenter).GetSafeNormal();
+    // ---------- OFF SCREEN ----------
 
-    if (Dir.IsNearlyZero())
+    FVector2D Center = ViewportSize * 0.5f;
+
+    FVector2D Direction = ScreenPosition - Center;
+
+
+    // Avoid zero vector
+    if (Direction.IsNearlyZero())
     {
-        Dir = FVector2D(1.f, 0.f);
+        Direction = FVector2D(1.f, 0.f);
     }
 
-    // Edge padding in DPI space
-    const float Padding = 80.f;
-    const FVector2D HalfBounds(
-        (ViewportSize.X * 0.5f) - Padding,
-        (ViewportSize.Y * 0.5f) - Padding
+
+    /*
+        Find where the line from center to enemy
+        intersects the screen rectangle
+    */
+
+    float ScaleX = BIG_NUMBER;
+    float ScaleY = BIG_NUMBER;
+
+
+    if (!FMath::IsNearlyZero(Direction.X))
+    {
+        ScaleX = (ViewportSize.X * 0.5f) / FMath::Abs(Direction.X);
+    }
+
+    if (!FMath::IsNearlyZero(Direction.Y))
+    {
+        ScaleY = (ViewportSize.Y * 0.5f) / FMath::Abs(Direction.Y);
+    }
+
+
+    float Scale = FMath::Min(ScaleX, ScaleY);
+
+
+    FVector2D EdgePosition =
+        Center + Direction * Scale;
+
+
+    // Padding from screen edge
+    const float Padding = 60.f;
+
+    FVector2D EdgeDirection = Direction.GetSafeNormal();
+
+    EdgePosition -= EdgeDirection * Padding;
+
+
+    OutScreenPos = EdgePosition;
+
+
+    // Arrow rotation
+    OutAngleDegrees = FMath::RadiansToDegrees(
+        FMath::Atan2(Direction.Y, Direction.X)
     );
 
-    // Push to screen edge in correct direction
-    OutScreenPos = ScreenCenter + Dir * HalfBounds;
-
-    // Rotation for arrow UI
-    OutAngleDegrees = FMath::RadiansToDegrees(FMath::Atan2(Dir.Y, Dir.X));
 
     return true;
 }
