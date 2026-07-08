@@ -1,8 +1,4 @@
-# Multiplayer Stealth Prototype
-
-<p align="center">
-  <img src="Docs/Banner.png" alt="Banner" width="900"/>
-</p>
+# Multiplayer Co-op Prototype
 
 <p align="center">
 A multiplayer stealth-action prototype built in <b>Unreal Engine 5</b> using <b>C++</b> and <b>Blueprints</b>.
