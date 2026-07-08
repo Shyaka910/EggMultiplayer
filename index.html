@@ -6,339 +6,235 @@
   <title>Shyaka Abdurahim | Unreal Engine Developer</title>
 
   <style>
-    :root {
-      --bg: #0f1115;
-      --card: #171a21;
-      --text: #e6e6e6;
-      --muted: #a0a0a0;
-      --accent: #4da3ff;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    header {
-      padding: 80px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, #111827, #0f1115);
-    }
-
-    header h1 {
-      font-size: 2.8rem;
-    }
-
-    header p {
-      color: var(--muted);
-      margin-top: 10px;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 15px;
-      background: #0c0e12;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-    }
-
-    section {
-      max-width: 1000px;
-      margin: auto;
-      padding: 60px 20px;
-      transition: transform 0.25s ease;
-    }
-
-    .card, .project {
-      background: var(--card);
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 15px;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      will-change: transform;
-    }
-
-    .card:hover, .project:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    }
-
-    h2 {
-      margin-bottom: 15px;
-      color: var(--accent);
-    }
-
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #223;
-      color: var(--accent);
-      padding: 3px 8px;
-      border-radius: 5px;
-      font-size: 12px;
-      margin-top: 8px;
-      margin-right: 5px;
-    }
-
-    ul {
-      padding-left: 20px;
-      color: var(--muted);
-    }
-
-    iframe {
-      width: 100%;
-      height: 450px;
-      border-radius: 10px;
-      margin-top: 15px;
-    }
-
-    a.button {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 15px;
-      background: var(--accent);
-      color: #000;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: transform 0.2s ease;
-    }
-
-    a.button:hover {
-      transform: translateY(-2px);
-    }
-
-    a.link {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a.link:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: var(--muted);
-      border-top: 1px solid #222;
-    }
-  </style>
+      a.button {
+          display: inline-block;
+          margin-top: 15px;
+          padding: 10px 15px;
+          background: var(--accent);
+          color: #000;
+          text-decoration: none;
+          border-radius: 5px;
+          font-weight: bold;
+          transition: transform 0.2s ease;
+      }
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; } body{ background:#121212; color:white; line-height:1.6; } header{ text-align:center; padding:80px 20px; background:linear-gradient(135deg,#1e1e1e,#2c2c2c); } header h1{ font-size:3rem; margin-bottom:15px; } header p{ color:#bbbbbb; max-width:800px; margin:auto; font-size:1.1rem; } section{ max-width:1200px; margin:auto; padding:60px 20px; } h2{ margin-bottom:25px; text-align:center; font-size:2rem; } .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:25px; } .card{ background:#1f1f1f; border-radius:12px; overflow:hidden; transition:.25s; box-shadow:0 10px 30px rgba(0,0,0,.35); } .card:hover{ transform:translateY(-6px); } .card img{ width:100%; display:block; } .card h3{ padding:15px 20px 5px; } .card p{ padding:0 20px 20px; color:#cfcfcf; } .features{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; } .feature{ background:#1f1f1f; padding:20px; border-radius:10px; } .feature h4{ margin-bottom:10px; } footer{ text-align:center; padding:40px; color:#999; } </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Shyaka A.</h1>
-  <p>Experience Unreal Engine & Software Developer</p>
-</header>
+    <header>
+        <h1>Shyaka A.</h1>
+        <p>Experience Unreal Engine & Software Developer</p>
+    </header>
 
-<nav>
-  <a href="#about">About</a>
-  <a href="#video">Trailer</a>
-  <a href="#projects">Projects</a>
-  <a href="#skills">Skills</a>
-  <a href="#contact">Contact</a>
-</nav>
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="card">
+            Hello. My name is Shyaka, I am an Experienced Game Developer specializing in Unreal Engine 5 with a strong focus on C++, multiplayer systems, Gameplay Ability System (GAS), replication, AI behavior systems, and scalable gameplay architecture.
 
-<section id="about">
-  <h2>About Me</h2>
-  <div class="card">
-    Hello. My name is Shyaka, I am an Experienced Game Developer specializing in Unreal Engine 5 with a strong focus on C++, multiplayer systems, Gameplay Ability System (GAS), replication, AI behavior systems, and scalable gameplay architecture.
+            <br><br>
 
-    <br><br>
+            I also have experience working in <strong>AA studio environment</strong> such as <strong>Capricia Productions</strong> and <strong>MasterForge LLC</strong>, contributing to structured production workflows,
+            collaborative development pipelines, and performance-driven gameplay systems.
+        </div>
+    </section>
 
-    I also have experience working in <strong>AA studio environment</strong> such as <strong>Capricia Productions</strong> and <strong>MasterForge LLC</strong>, contributing to structured production workflows,
-    collaborative development pipelines, and performance-driven gameplay systems.
-  </div>
-</section>
+        <section>
+
+            <h2>Gameplay Showcase</h2>
+
+            <div class="grid">
+
+                <div class="card">
+                    <img src="Docs/Stealth.gif" alt="Stealth">
+                    <h3>Stealth Gameplay</h3>
+                    <p>Hide in tall grass and avoid enemy detection.</p>
+                </div>
+
+                <div class="card">
+                    <img src="Docs/Luring.gif" alt="Luring">
+                    <h3>Enemy Luring</h3>
+                    <p>Throw rocks to distract AI and manipulate patrol routes.</p>
+                </div>
+
+                <div class="card">
+                    <img src="Docs/Combat.gif" alt="Combat">
+                    <h3>Combat</h3>
+                    <p>Gunplay with replicated damage and multiplayer combat.</p>
+                </div>
+
+                <div class="card">
+                    <img src="Docs/Multiplayer.gif" alt="Multiplayer">
+                    <h3>Multiplayer</h3>
+                    <p>Networked gameplay using Unreal Engine replication.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        
+
 
 <section id="video">
-  <h2>CO-OP MUTLIPLAYER SHOOTER PROTOTYPE</h2>
-  <div class="card">
-    <iframe 
-      src="https://www.youtube.com/embed/mGmGGpNKy-Y"
-      title="Multiplayer Shooter Trailer"
-      allowfullscreen>
-    </iframe>
-  </div>
+    <h2>CO-OP MUTLIPLAYER SHOOTER PROTOTYPE</h2>
+    <div class="card">
+        <iframe src="https://www.youtube.com/embed/mGmGGpNKy-Y"
+                title="Multiplayer Shooter Trailer"
+                allowfullscreen>
+        </iframe>
+    </div>
 </section>
 
 <section id="projects">
-  <h2>Projects</h2>
+    <h2>Projects</h2>
 
-  <div class="projects">
+    <div class="grid">
 
-  <a href="https://github.com/Shyaka910/EggMultiplayer" target="_blank" style="text-decoration:none; color:inherit;">
-      <div class="project">
-          <h3>Co-op Multiplayer Shooter (UE5) – Full Gameplay & Networking System</h3>
+        <a href="https://github.com/Shyaka910/EggMultiplayer" target="_blank" style="text-decoration:none; color:inherit;">
+            <div class="card">
+                <h3>Co-op Multiplayer Shooter (UE5) – Full Gameplay & Networking System</h3>
 
-          <br>
+                <br>
 
-          <ul>
-              <li>
-                  Fully replicated co-op multiplayer shooter built in Unreal Engine 5, focusing on gameplay systems,
-                  network reliability, and scalable combat architecture using C++ and Blueprints.
-              </li>
+                <ul>
+                    <li>
+                        Fully replicated co-op multiplayer shooter built in Unreal Engine 5, focusing on gameplay systems,
+                        network reliability, and scalable combat architecture using C++ and Blueprints.
+                    </li>
 
-              <li>
-                  Environmental stealth system that allows players to hide in tall grass, breaking enemy line of sight and altering AI perception.
-                  AI dynamically reacts to visibility changes, encouraging tactical positioning and cooperative stealth gameplay rather than direct combat.
-              </li>
+                    <li>
+                        Environmental stealth system that allows players to hide in tall grass, breaking enemy line of sight and altering AI perception.
+                        AI dynamically reacts to visibility changes, encouraging tactical positioning and cooperative stealth gameplay rather than direct combat.
+                    </li>
 
-              <li>
-                  Implemented core multiplayer gameplay loop including player movement, combat replication,
-                  and synchronized match systems with Steam Online Sessions integration.
-              </li>
+                    <li>
+                        Implemented core multiplayer gameplay loop including player movement, combat replication,
+                        and synchronized match systems with Steam Online Sessions integration.
+                    </li>
 
-              <li>
-                  Developed a complete <strong>weapon system</strong> featuring:
-                  full-auto firearms, pistols, firing logic, recoil behavior, and replicated damage handling across clients.
-              </li>
+                    <li>
+                        Developed a complete <strong>weapon system</strong> featuring:
+                        full-auto firearms, pistols, firing logic, recoil behavior, and replicated damage handling across clients.
+                    </li>
 
-              <li>
-                  Built <strong>weapon pickup and drop systems</strong> allowing players to dynamically swap,
-                  drop, and interact with weapons in a fully network-replicated environment.
-              </li>
+                    <li>
+                        Built <strong>weapon pickup and drop systems</strong> allowing players to dynamically swap,
+                        drop, and interact with weapons in a fully network-replicated environment.
+                    </li>
 
-              <span class="tag">UE5</span>
-              <span class="tag">Multiplayer Replication</span>
-              <span class="tag">Weapon Systems</span>
-              <span class="tag">Full Auto Combat</span>
-              <span class="tag">Steam Online Sessions</span>
-           </ul>
-      </div>
-</a>
+                    <span class="tag">UE5</span>
+                    <span class="tag">Multiplayer Replication</span>
+                    <span class="tag">Weapon Systems</span>
+                    <span class="tag">Full Auto Combat</span>
+                    <span class="tag">Steam Online Sessions</span>
+                </ul>
+            </div>
+        </a>
 
-  <a href="https://store.steampowered.com/app/2295940/Master_of_Realms/" target="_blank" style="text-decoration:none; color:inherit;">
-      <div class="project">
-          <h3>Master of Realms – 3D Map & Systems Tooling (Steam Project)</h3>
+        <a href="https://store.steampowered.com/app/2295940/Master_of_Realms/" target="_blank" style="text-decoration:none; color:inherit;">
+            <div class="card">
+                <h3>Master of Realms – 3D Map & Systems Tooling (Steam Project)</h3>
 
-          <br>
+                <br>
 
-          <ul>
-          <li>
-              Contributed to <strong>Master of Realms</strong>, a 3D map creation and sharing tool on Steam.
-              Worked on core systems including Steam Workshop integration, map sharing pipelines, and gameplay/tooling features.
-          </li>
+                <ul>
+                    <li>
+                        Contributed to <strong>Master of Realms</strong>, a 3D map creation and sharing tool on Steam.
+                        Worked on core systems including Steam Workshop integration, map sharing pipelines, and gameplay/tooling features.
+                    </li>
 
-          <li>
-              Implemented and supported a <strong>3D map texture rendering system</strong> and assisted in building
-              in-engine map creation and drawing tools for user-generated content workflows.
-          </li>
+                    <li>
+                        Implemented and supported a <strong>3D map texture rendering system</strong> and assisted in building
+                        in-engine map creation and drawing tools for user-generated content workflows.
+                    </li>
 
-          <li>
-              Also contributed to <strong>Steam test builds and release pipeline validation</strong>, ensuring stable
-              deployment and Workshop content compatibility across builds.
-          </li>
+                    <li>
+                        Also contributed to <strong>Steam test builds and release pipeline validation</strong>, ensuring stable
+                        deployment and Workshop content compatibility across builds.
+                    </li>
 
-          <span class="tag">UE5</span>
-          <span class="tag">Steam Workshop</span>
-          <span class="tag">Tools Development</span>
-          <span class="tag">Rendering Systems</span>
-          <span class="tag">Multiplayer/Online Systems</span>
+                    <span class="tag">UE5</span>
+                    <span class="tag">Steam Workshop</span>
+                    <span class="tag">Tools Development</span>
+                    <span class="tag">Rendering Systems</span>
+                    <span class="tag">Multiplayer/Online Systems</span>
 
-          </ul>
-      </div>
-</a>
+                </ul>
+            </div>
+        </a>
 
-</div>
+    </div>
 </section>
 
 <section id="skills">
-  <h2>Skills & Technical Expertise</h2>
+    <h2>Skills & Technical Expertise</h2>
 
-  <div class="card">
-    <p>
-      Unreal Engine developer with strong focus on gameplay systems, multiplayer networking,
-      and advanced real-time integrations.
-    </p>
+    <div class="card">
+        <p>
+            Unreal Engine developer with strong focus on gameplay systems, multiplayer networking,
+            and advanced real-time integrations.
+        </p>
 
-    <br>
+        <br>
 
-    <ul>
-      <li><strong>Unreal Engine 5:</strong> C++, Blueprints, Gameplay Framework, Replication</li>
+        <ul>
+            <li><strong>Unreal Engine 5:</strong> C++, Blueprints, Gameplay Framework, Replication</li>
 
-      <li><strong>Gameplay Ability System (GAS):</strong> Ability-driven architecture, gameplay effects, and attribute systems (Health / Damage / Buffs / Combat logic)</li>
+            <li><strong>Gameplay Ability System (GAS):</strong> Ability-driven architecture, gameplay effects, and attribute systems (Health / Damage / Buffs / Combat logic)</li>
 
-      <li><strong>Multiplayer Systems:</strong> Dedicated servers, Steam Online Sessions, network replication</li>
+            <li><strong>Multiplayer Systems:</strong> Dedicated servers, Steam Online Sessions, network replication</li>
 
-      <li><strong>AI Systems:</strong> Behavior Trees, AI Perception, Navigation systems</li>
+            <li><strong>AI Systems:</strong> Behavior Trees, AI Perception, Navigation systems</li>
 
-      <li><strong>Third-Party Integrations:</strong> AI Speech systems, AWS backend services, Steam SDK, PlayStation platform systems</li>
+            <li><strong>Third-Party Integrations:</strong> AI Speech systems, AWS backend services, Steam SDK, PlayStation platform systems</li>
 
-      <li><strong>Gameplay Systems:</strong> Weapons, inventory, interaction systems, combat mechanics</li>
+            <li><strong>Gameplay Systems:</strong> Weapons, inventory, interaction systems, combat mechanics</li>
 
-      <li><strong>Studio Experience:</strong> AA environment workflow, collaboration, structured production pipelines</li>
-    </ul>
-  </div>
+            <li><strong>Studio Experience:</strong> AA environment workflow, collaboration, structured production pipelines</li>
+        </ul>
+    </div>
 </section>
 
 <section id="contact">
-  <h2>Contact</h2>
+    <h2>Contact</h2>
 
-  <div class="card">
-    <p>
-      <strong>Email:</strong>
-      <a class="link" href="mailto:shyakadjura@gmail.com">shyakadjura@gmail.com</a>
-    </p>
+    <div class="card">
+        <p>
+            <strong>Email:</strong>
+            <a class="link" href="mailto:shyakadjura@gmail.com">shyakadjura@gmail.com</a>
+        </p>
 
-    <p>
-      <strong>GitHub:</strong>
-      <a class="link" href="https://github.com/Shyaka910/EggMultiplayer" target="_blank">
-        EggMultiplayer Repository
-      </a>
-    </p>
+        <p>
+            <strong>GitHub:</strong>
+            <a class="link" href="https://github.com/Shyaka910/EggMultiplayer" target="_blank">
+                EggMultiplayer Repository
+            </a>
+        </p>
 
-    <p>
-      <strong>LinkedIn:</strong>
-      <a class="link" href="https://www.linkedin.com/in/shyaka-kadjura-180062251/" target="_blank">
-        View Profile
-      </a>
-    </p>
+        <p>
+            <strong>LinkedIn:</strong>
+            <a class="link" href="https://www.linkedin.com/in/shyaka-kadjura-180062251/" target="_blank">
+                View Profile
+            </a>
+        </p>
 
-    <p>
-      <strong>Discord:</strong> .shyaka
-    </p>
+        <p>
+            <strong>Discord:</strong> .shyaka
+        </p>
 
-    <a class="button" href="https://github.com/Shyaka910/EggMultiplayer" target="_blank">
-      View Project
-    </a>
+        <a class="button" href="https://github.com/Shyaka910/EggMultiplayer" target="_blank">
+            View Project
+        </a>
 
-    <a class="button" href="https://youtu.be/NHxvSuc7H1c" target="_blank">
-      Watch Trailer
-    </a>
-  </div>
+        <a class="button" href="https://youtu.be/NHxvSuc7H1c" target="_blank">
+            Watch Trailer
+        </a>
+    </div>
 </section>
 
 <footer>
-  © 2026 Shyaka Abdurahim — Unreal Engine Developer Portfolio
+    © 2026 Shyaka Abdurahim — Unreal Engine Developer Portfolio
 </footer>
 
 </body>
