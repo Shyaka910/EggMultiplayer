@@ -88,7 +88,7 @@ bool UMyBlueprintFunctionLibrary::GetOffScreenIndicatorPosition(APlayerControlle
 
 
     // Padding from screen edge
-    const float Padding = 60.f;
+    const float Padding = 100.f;
 
     FVector2D EdgeDirection = Direction.GetSafeNormal();
 

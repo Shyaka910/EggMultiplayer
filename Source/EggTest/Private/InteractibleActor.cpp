@@ -127,7 +127,7 @@ void AInteractibleActor::Tick(float DeltaTime)
 	{
 		float Distance = FVector::Distance(ViewingPlayer->GetActorLocation(), GetActorLocation());
 
-		PossibleInteractWidget->SetVisibility(Distance < 400.f && Distance > 200.f && bCanInteract);
+		PossibleInteractWidget->SetVisibility(Distance < 1000.f && Distance > 200.f && bCanInteract);
 
 		if (AMyPlayerCharacter* InChar = Cast<AMyPlayerCharacter>(ViewingPlayer))
 			WidgetComp->SetVisibility(InChar->GetClosestInteractActor() == this);
