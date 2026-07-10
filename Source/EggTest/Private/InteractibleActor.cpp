@@ -29,6 +29,7 @@ AInteractibleActor::AInteractibleActor()
 	WidgetComp->SetupAttachment(InteractMesh);
 	WidgetComp->SetWidgetSpace(EWidgetSpace::Screen);
 	WidgetComp->SetVisibility(false);
+	WidgetComp->SetDrawAtDesiredSize(true);
 
 	PossibleInteractWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("PossibleInteractWidget"));
 	PossibleInteractWidget->SetupAttachment(InteractMesh);

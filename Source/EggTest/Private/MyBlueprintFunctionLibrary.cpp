@@ -22,8 +22,23 @@ bool UMyBlueprintFunctionLibrary::GetOffScreenIndicatorPosition(APlayerControlle
 
     FVector2D ScreenPosition;
 
+    FVector CameraLocation;
+    FRotator CameraRotation;
+    PC->GetPlayerViewPoint(CameraLocation, CameraRotation);
+
+    const FVector ToTarget = WorldLocation - CameraLocation;
+    const bool bBehindCamera =
+        FVector::DotProduct(CameraRotation.Vector(), ToTarget) < 0.f;
+
     if (!PC->ProjectWorldLocationToScreen(WorldLocation, ScreenPosition))
         return false;
+
+    FVector2D Center = ViewportSize * 0.5f;
+
+    if (bBehindCamera)
+    {
+        ScreenPosition = Center - (ScreenPosition - Center);
+    }
 
 
     // Convert projected position into UMG space
@@ -48,10 +63,8 @@ bool UMyBlueprintFunctionLibrary::GetOffScreenIndicatorPosition(APlayerControlle
 
     // ---------- OFF SCREEN ----------
 
-    FVector2D Center = ViewportSize * 0.5f;
-
     FVector2D Direction = ScreenPosition - Center;
-
+    Direction.Normalize();
 
     // Avoid zero vector
     if (Direction.IsNearlyZero())
@@ -65,44 +78,54 @@ bool UMyBlueprintFunctionLibrary::GetOffScreenIndicatorPosition(APlayerControlle
         intersects the screen rectangle
     */
 
-    float ScaleX = BIG_NUMBER;
-    float ScaleY = BIG_NUMBER;
 
+    float ScaleX = (FMath::Abs(Direction.X) > 0.001f)
+        ? Center.X / FMath::Abs(Direction.X)
+        : FLT_MAX;
 
-    if (!FMath::IsNearlyZero(Direction.X))
-    {
-        ScaleX = (ViewportSize.X * 0.5f) / FMath::Abs(Direction.X);
-    }
-
-    if (!FMath::IsNearlyZero(Direction.Y))
-    {
-        ScaleY = (ViewportSize.Y * 0.5f) / FMath::Abs(Direction.Y);
-    }
-
-
-    float Scale = FMath::Min(ScaleX, ScaleY);
-
-
-    FVector2D EdgePosition =
-        Center + Direction * Scale;
+    float ScaleY = (FMath::Abs(Direction.Y) > 0.001f)
+        ? Center.Y / FMath::Abs(Direction.Y)
+        : FLT_MAX;
 
 
     // Padding from screen edge
     const float Padding = 100.f;
+
+    Direction = ScreenPosition - Center;
+    Direction.Normalize();
+
+    float X = (ViewportSize.X * 0.5f - Padding) / FMath::Abs(Direction.X);
+    float Y = (ViewportSize.Y * 0.5f - Padding) / FMath::Abs(Direction.Y);
+
+    float Distance = FMath::Min(X, Y);
+
+    FVector2D EdgePos = Center + Direction * Distance;
+
+    EdgePos.X = FMath::Clamp(EdgePos.X, Padding, ViewportSize.X - Padding);
+    EdgePos.Y = FMath::Clamp(EdgePos.Y, Padding, ViewportSize.Y - Padding);
+
+
+    FVector2D EdgePosition =
+        Center + Direction * Distance;
+
+    Direction = ScreenPosition - Center;
 
     FVector2D EdgeDirection = Direction.GetSafeNormal();
 
     EdgePosition -= EdgeDirection * Padding;
 
 
-    OutScreenPos = EdgePosition;
+    OutScreenPos = EdgePos;
 
 
-    // Arrow rotation
-    OutAngleDegrees = FMath::RadiansToDegrees(
-        FMath::Atan2(Direction.Y, Direction.X)
-    );
+    FVector2D ToEnemy = ScreenPosition - OutScreenPos;
 
+    OutAngleDegrees = FMath::RadiansToDegrees(FMath::Atan2(Direction.Y, Direction.X));
+
+    /*UE_LOG(LogTemp, Warning, TEXT("ScreenPos = %s"), *ScreenPosition.ToString());
+    UE_LOG(LogTemp, Warning, TEXT("Direction = %s"), *Direction.ToString());
+    UE_LOG(LogTemp, Warning, TEXT("ScaleX = %f  ScaleY = %f"), ScaleX, ScaleY);
+    UE_LOG(LogTemp, Warning, TEXT("EdgePos = %s"), *EdgePosition.ToString());*/
 
     return true;
 }
