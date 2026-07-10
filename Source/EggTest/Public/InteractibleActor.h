@@ -28,6 +28,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	class UWidgetComponent* PossibleInteractWidget;
 
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Interactible)
+	FSlateBrush InteractBrush;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

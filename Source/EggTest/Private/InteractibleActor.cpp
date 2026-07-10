@@ -40,7 +40,6 @@ AInteractibleActor::AInteractibleActor()
 void AInteractibleActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AInteractibleActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
